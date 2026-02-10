@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to the Traineeship App</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .form-control-sm {
+      width: 250px;
+      margin: 0 auto;
+      height: 35px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      text-align: left;
+      margin-bottom: 5px;
+      margin-left: 432px;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .btn-container .btn {
+      width: 120px;
+    }
+
+    .content {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    /* Προσαρμογή για τα μηνύματα */
+    .alert {
+      font-size: 14px;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+<div class="container content">
+  <h1>Welcome to the Traineeship App</h1>
+
+  <!-- Εμφάνιση μηνύματος επιτυχίας από την εγγραφή -->
+  <div th:if="${param.message}" class="alert alert-success" role="alert">
+    <span th:text="${param.message}"></span>
+  </div>
+
+  <!-- Εμφάνιση μηνύματος αποτυχίας από το login -->
+  <div th:if="${param.error}" class="alert alert-danger" role="alert">
+    <span>Invalid username or password. Please try again.</span>
+  </div>
+
+  <form action="/login" method="post" class="mt-4">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" class="form-control form-control-sm" id="username" name="username" placeholder="Enter Username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" class="form-control form-control-sm" id="password" name="password" placeholder="Enter Password" required>
+    </div>
+
+    <div class="btn-container">
+      <button type="submit" class="btn btn-primary">Login</button>
+      <a href="/register" class="btn btn-secondary">Register</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

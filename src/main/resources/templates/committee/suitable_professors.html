@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Suitable Professors</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f4f6f8;
+    }
+
+    .container {
+      margin-top: 50px;
+      max-width: 1000px;
+    }
+
+    table {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    th, td {
+      vertical-align: middle !important;
+      text-align: center;
+    }
+
+    .back-button-wrapper {
+      text-align: right;
+      margin-top: 30px;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    .description {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    .match-ratio {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h2>Suitable Professors</h2>
+  <div class="description">
+    Professors matched to this traineeship position based on their interests.
+  </div>
+
+  <div th:if="${#lists.isEmpty(professors)}">
+    <p>No suitable professors found.</p>
+  </div>
+
+  <div th:if="${!#lists.isEmpty(professors)}">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+      <tr>
+        <th>Professor Name</th>
+        <th>Supervised Traineeships</th>
+        <th>Interests Match</th>
+        <th>Assign</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="match : ${professors}">
+        <td th:text="${match.professor.professorName}">Dr. Jane Doe</td>
+        <td th:text="${match.professor.supervisedPositions.size()}">3</td>
+        <td class="match-ratio" th:text="${match.matchedInterests} + '/' + ${match.totalPositionInterests}">2/5</td>
+        <td>
+          <form th:action="@{/Assign_professor}" method="post">
+            <input type="hidden" name="professorId" th:value="${match.professor.id}" />
+            <input type="hidden" name="positionId" th:value="${positionId}" />
+            <button type="submit" class="btn btn-primary btn-sm">Assign as Supervisor</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="back-button-wrapper">
+    <a href="/In_progress_traineeships" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+</div>
+</body>
+</html>

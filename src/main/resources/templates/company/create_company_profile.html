@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create your company profile</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .content {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .form-container {
+      margin: 0 auto;
+      margin-top: 30px;
+    }
+
+    .form-control-sm {
+      width: 250px;
+      margin: 0 auto;
+      height: 35px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      text-align: left;
+      margin-bottom: 5px;
+      margin-left: 435px;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .btn-container .btn {
+      width: 120px;
+      padding: 10px 0;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container content">
+  <h1>Create your company profile</h1>
+  <div class="form-container">
+    <form action="/create_company_profile" method="post">
+      <div class="form-group">
+        <label for="company_name">Company Name *</label>
+        <input type="text" class="form-control form-control-sm" id="company_name" name="company_name" placeholder="Company Name" required>
+      </div>
+      <div class="form-group">
+        <label for="location">Location *</label>
+        <input type="text" class="form-control form-control-sm" id="location" name="location" placeholder="Location" required>
+      </div>
+      <div class="btn-container">
+        <button type="submit" name="action" value="save_company" class="btn btn-primary">Save</button>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+
+</html>

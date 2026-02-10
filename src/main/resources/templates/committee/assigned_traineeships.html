@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Assigned Traineeships</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f4f6f8; }
+        .container { margin-top: 50px; max-width: 1100px; }
+        .traineeship-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .traineeship-header { font-size: 1.3rem; font-weight: 600; }
+        .btn-actions { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+        .footer { margin-top: 50px; font-size: 0.85rem; text-align: center; color: #888; }
+        .label { font-weight: bold; }
+        .back-button-wrapper { text-align: right; margin-top: 30px; }
+        .alert { margin-bottom: 25px; }
+        .card-evals { font-size: 0.9rem; background-color: #fdfdfd; }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h2 class="mb-4">In-Progress Traineeships</h2>
+
+    <div th:if="${message != null}" class="alert alert-warning" th:text="${message}"></div>
+
+    <div th:if="${#lists.isEmpty(positions)}">
+        <p>No assigned traineeships found.</p>
+    </div>
+
+    <div th:each="position, iterStat : ${positions}" class="traineeship-card">
+        <div class="traineeship-header" th:text="${position.title}">Traineeship Title</div>
+
+        <p><span class="label">Student:</span> <span th:text="${position.student.studentName}">Student Name</span></p>
+        <p><span class="label">Professor:</span>
+            <span th:if="${position.supervisor != null}" th:text="${position.supervisor.professorName}">Professor Name</span>
+            <span th:if="${position.supervisor == null}">Not assigned</span>
+        </p>
+
+        <div class="btn-actions">
+            <form th:action="@{/Search_professor}" method="get">
+                <input type="hidden" name="positionId" th:value="${position.id}" />
+                <button class="btn btn-primary"
+                        type="submit"
+                        th:disabled="${position.supervisor != null}"
+                        th:attr="data-bs-toggle=${position.supervisor != null} ? 'tooltip' : null,
+                 title=${position.supervisor != null} ? 'The position is already being supervised.' : null">
+                    Assign Professor
+                </button>
+            </form>
+
+            <form th:action="@{/Complete_traineeship}" method="post">
+                <input type="hidden" name="positionId" th:value="${position.id}" />
+                <button class="btn btn-success complete-btn"
+                        th:attr="data-bs-toggle=${!isCompletable[iterStat.index]} ? 'tooltip' : null,
+                                 title=${!isCompletable[iterStat.index]} ? 'You cannot complete the process before all the evaluations are filled!' : null"
+                        type="submit"
+                        th:disabled="${!isCompletable[iterStat.index]}">
+                    Complete
+                </button>
+            </form>
+
+            <button class="btn btn-danger" type="button"
+                    data-toggle="collapse" th:attr="data-target='#evalPanel__' + ${position.id}" aria-expanded="false">
+                View Evaluations
+            </button>
+        </div>
+
+        <!-- Evaluations Panel -->
+        <div class="collapse mt-2" th:id="'evalPanel__' + ${position.id}">
+            <div class="card card-body card-evals">
+                <div><strong>Company Evaluation:</strong></div>
+                <ul>
+                    <li th:each="eval : ${position.evaluations}"
+                        th:if="${eval.evaluationType.name() eq 'COMPANY_EVALUATION'}">
+                        Motivation: <span th:text="${eval.motivation gt 0 ? eval.motivation : 'N/A'}"></span> |
+                        Efficiency: <span th:text="${eval.efficiency gt 0 ? eval.efficiency : 'N/A'}"></span> |
+                        Effectiveness: <span th:text="${eval.effectiveness gt 0 ? eval.effectiveness : 'N/A'}"></span>
+                    </li>
+                    <li th:if="${hasCompanyEvalMap[position.id] == null or !hasCompanyEvalMap[position.id]}">
+                        No Company Evaluation submitted.
+                    </li>
+                </ul>
+
+                <div class="mt-2"><strong>Professor Evaluation:</strong></div>
+                <ul>
+                    <li th:each="eval : ${position.evaluations}"
+                        th:if="${eval.evaluationType.name() eq 'PROFESSOR_EVALUATION'}">
+                        Motivation: <span th:text="${eval.motivation gt 0 ? eval.motivation : 'N/A'}"></span> |
+                        Efficiency: <span th:text="${eval.efficiency gt 0 ? eval.efficiency : 'N/A'}"></span> |
+                        Effectiveness: <span th:text="${eval.effectiveness gt 0 ? eval.effectiveness : 'N/A'}"></span> |
+                        Facilities: <span th:text="${eval.facilities gt 0 ? eval.facilities : 'N/A'}"></span> |
+                        Guidance: <span th:text="${eval.guidance gt 0 ? eval.guidance : 'N/A'}"></span>
+                    </li>
+                    <li th:if="${hasProfessorEvalMap[position.id] == null or !hasProfessorEvalMap[position.id]}">
+                        No Professor Evaluation submitted.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-button-wrapper">
+        <a href="/committee_dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <div class="footer">
+        Supervise and complete ongoing traineeships
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+<!-- Enable Bootstrap tooltips -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+</body>
+</html>

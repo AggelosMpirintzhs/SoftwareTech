@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluate Position</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .star-rating {
+            direction: rtl;
+            font-size: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        .star-rating input {
+            display: none;
+        }
+        .star-rating label {
+            color: lightgray;
+            cursor: pointer;
+        }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: gold;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .scale-legend {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .scale-legend span {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container mt-5">
+
+    <h4>
+        You are currently evaluating the position: <span th:text="${position.title}">Position Title</span>
+    </h4>
+
+    <form action="#" method="post">
+
+        <!-- MOTIVATION -->
+        <div class="section">
+            <h5>Motivation</h5>
+            <div class="scale-legend text-muted">
+                <span class="badge badge-danger">1 Bad</span>
+                <span class="badge badge-warning">2 Fair</span>
+                <span class="badge badge-info">3 Good</span>
+                <span class="badge badge-primary">4 Very Good</span>
+                <span class="badge badge-success">5 Perfect</span>
+            </div>
+            <div class="star-rating mt-2">
+                <input type="radio" id="motivation-5" name="motivation" value="5" th:checked="${evaluation.motivation == 5}">
+                <label for="motivation-5" title="Perfect">&#9733;</label>
+                <input type="radio" id="motivation-4" name="motivation" value="4" th:checked="${evaluation.motivation == 4}">
+                <label for="motivation-4" title="Very Good">&#9733;</label>
+                <input type="radio" id="motivation-3" name="motivation" value="3" th:checked="${evaluation.motivation == 3}">
+                <label for="motivation-3" title="Good">&#9733;</label>
+                <input type="radio" id="motivation-2" name="motivation" value="2" th:checked="${evaluation.motivation == 2}">
+                <label for="motivation-2" title="Fair">&#9733;</label>
+                <input type="radio" id="motivation-1" name="motivation" value="1" th:checked="${evaluation.motivation == 1}">
+                <label for="motivation-1" title="Bad">&#9733;</label>
+            </div>
+        </div>
+
+        <!-- EFFICIENCY -->
+        <div class="section">
+            <h5>Efficiency</h5>
+            <div class="scale-legend text-muted">
+                <span class="badge badge-danger">1 Bad</span>
+                <span class="badge badge-warning">2 Fair</span>
+                <span class="badge badge-info">3 Good</span>
+                <span class="badge badge-primary">4 Very Good</span>
+                <span class="badge badge-success">5 Perfect</span>
+            </div>
+            <div class="star-rating mt-2">
+                <input type="radio" id="efficiency-5" name="efficiency" value="5" th:checked="${evaluation.efficiency == 5}">
+                <label for="efficiency-5" title="Perfect">&#9733;</label>
+                <input type="radio" id="efficiency-4" name="efficiency" value="4" th:checked="${evaluation.efficiency == 4}">
+                <label for="efficiency-4" title="Very Good">&#9733;</label>
+                <input type="radio" id="efficiency-3" name="efficiency" value="3" th:checked="${evaluation.efficiency == 3}">
+                <label for="efficiency-3" title="Good">&#9733;</label>
+                <input type="radio" id="efficiency-2" name="efficiency" value="2" th:checked="${evaluation.efficiency == 2}">
+                <label for="efficiency-2" title="Fair">&#9733;</label>
+                <input type="radio" id="efficiency-1" name="efficiency" value="1" th:checked="${evaluation.efficiency == 1}">
+                <label for="efficiency-1" title="Bad">&#9733;</label>
+            </div>
+        </div>
+
+        <!-- EFFECTIVENESS -->
+        <div class="section">
+            <h5>Effectiveness</h5>
+            <div class="scale-legend text-muted">
+                <span class="badge badge-danger">1 Bad</span>
+                <span class="badge badge-warning">2 Fair</span>
+                <span class="badge badge-info">3 Good</span>
+                <span class="badge badge-primary">4 Very Good</span>
+                <span class="badge badge-success">5 Perfect</span>
+            </div>
+            <div class="star-rating mt-2">
+                <input type="radio" id="effectiveness-5" name="effectiveness" value="5" th:checked="${evaluation.effectiveness == 5}">
+                <label for="effectiveness-5" title="Perfect">&#9733;</label>
+                <input type="radio" id="effectiveness-4" name="effectiveness" value="4" th:checked="${evaluation.effectiveness == 4}">
+                <label for="effectiveness-4" title="Very Good">&#9733;</label>
+                <input type="radio" id="effectiveness-3" name="effectiveness" value="3" th:checked="${evaluation.effectiveness == 3}">
+                <label for="effectiveness-3" title="Good">&#9733;</label>
+                <input type="radio" id="effectiveness-2" name="effectiveness" value="2" th:checked="${evaluation.effectiveness == 2}">
+                <label for="effectiveness-2" title="Fair">&#9733;</label>
+                <input type="radio" id="effectiveness-1" name="effectiveness" value="1" th:checked="${evaluation.effectiveness == 1}">
+                <label for="effectiveness-1" title="Bad">&#9733;</label>
+            </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-primary">Save Evaluation</button>
+            <a href="/Company_Positions" class="btn btn-secondary">Cancel</a>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

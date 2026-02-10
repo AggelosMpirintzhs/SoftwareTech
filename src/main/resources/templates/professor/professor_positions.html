@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supervised Traineeship Positions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f6f8;
+        }
+
+        .table-container {
+            margin-top: 50px;
+        }
+
+        .evaluate-btn {
+            background-color: #6f42c1;
+            color: white;
+        }
+
+        .evaluate-btn:hover {
+            background-color: #59339d;
+            color: white;
+        }
+
+        .dashboard-btn {
+            margin-top: 20px;
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container table-container">
+    <h2 class="text-center mb-4">Supervised Traineeship Positions</h2>
+    <table class="table table-bordered table-hover bg-white">
+        <thead class="thead-dark">
+        <tr>
+            <th>Position Title</th>
+            <th>Company Name</th>
+            <th>Student Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="position : ${professor.supervisedPositions}">
+            <td th:text="${position.title}">Position Title</td>
+            <td th:text="${position.company.companyName}">Company Name</td>
+            <td th:text="${position.student.studentName}">Student Name</td>
+            <td>
+                <a th:href="@{'/evaluate_position/' + ${position.id}}"
+                   class="btn evaluate-btn">Evaluate</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="dashboard-btn">
+        <a href="/professor_dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+</body>
+
+</html>

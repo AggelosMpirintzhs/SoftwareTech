@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Students</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #f4f6f8;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .student-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .student-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .btn-assign {
+            width: 160px;
+        }
+
+        .back-button-wrapper {
+            text-align: right;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h2 class="mb-4">Students Applied for Traineeship</h2>
+
+    <div th:if="${#lists.isEmpty(students)}">
+        <p>No students have applied yet.</p>
+    </div>
+
+    <div th:each="student : ${students}" class="student-card">
+        <div class="student-name" th:text="${student.studentName}">Student Name</div>
+        <form th:action="@{/assign_position}" method="get">
+            <input type="hidden" name="studentId" th:value="${student.id}" />
+            <button type="submit" class="btn btn-primary btn-assign">Assign Position</button>
+        </form>
+    </div>
+
+    <div class="back-button-wrapper">
+        <a href="/committee_dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+</body>
+</html>

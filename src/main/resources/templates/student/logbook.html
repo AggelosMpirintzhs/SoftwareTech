@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill Logbook</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .btn-container .btn {
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1 class="text-center">Traineeship Logbook</h1>
+    <form action="/Logbook" method="post">
+        <div class="form-group">
+            <label for="logbook">Describe your work during your traineeship *</label>
+            <textarea class="form-control" id="logbook" name="logbook" rows="15" placeholder="Write your logbook entry here..." required
+                      th:text="${traineeship.studentLogbook}"></textarea>
+        </div>
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/student_dashboard" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

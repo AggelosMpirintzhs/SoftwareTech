@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #f4f6f8;
+        }
+        .dashboard-card {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 60px;
+        }
+        .content {
+            text-align: center;
+        }
+        .btn-container {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .btn-block {
+            margin-bottom: 15px;
+            width: 200px;
+            text-align: center;
+        }
+        .description {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .username {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="dashboard-card content">
+        <div class="username">
+            Logged in as: <span th:text="${#authentication.name}">Username</span>
+        </div>
+
+        <h1>Welcome!</h1>
+        <p>You are logged in as a company.</p>
+
+        <div class="btn-container">
+            <div style="margin-left: 0px;">
+                <a href="/Edit_company_profile" class="btn btn-primary btn-block">Profile</a>
+                <div class="description">Edit your company profile<br>information.</div>
+            </div>
+            <div style="margin-left: 115px;">
+                <a href="/Company_Positions" class="btn btn-info btn-block">Positions</a>
+                <div class="description">Manage traineeship positions<br>for your company.</div>
+            </div>
+            <div style="margin-left: 100px;">
+                <a href="/logout" class="btn btn-danger btn-block">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Empowering your traineeship management
+    </div>
+</div>
+</body>
+
+</html>

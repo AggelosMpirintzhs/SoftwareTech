@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Suitable Traineeship Positions</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f4f6f8;
+    }
+
+    .container {
+      margin-top: 50px;
+      max-width: 1200px;
+    }
+
+    table {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    th, td {
+      vertical-align: middle !important;
+      text-align: center;
+    }
+
+    .badge-true {
+      background-color: #28a745;
+    }
+
+    .badge-false {
+      background-color: #dc3545;
+    }
+
+    .back-button-wrapper {
+      text-align: right;
+      margin-top: 30px;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    .description {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 25px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h2>Suitable Traineeship Positions</h2>
+  <div class="description">
+    The columns below show how well each position matches the selected student based on skills, interests and location.
+  </div>
+
+  <div th:if="${#lists.isEmpty(positions)}">
+    <p>No suitable positions found for this student.</p>
+  </div>
+
+  <div th:if="${!#lists.isEmpty(positions)}">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+      <tr>
+        <th>Title</th>
+        <th>Skills Match</th>
+        <th>Interests Match</th>
+        <th>Location Match</th>
+        <th>Total Score</th>
+        <th>Assign</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="position : ${positions}">
+        <td th:text="${position.position.title}">Position Title</td>
+        <td th:text="${position.skillsMatched + '/' + position.totalRequiredSkills}">2/3</td>
+        <td th:text="${position.interestsMatched + '/' + position.totalRequiredInterests}">1/2</td>
+        <td>
+          <span class="badge text-white"
+                th:classappend="${position.locationMatch} ? 'badge-true' : 'badge-false'"
+                th:text="${position.locationMatch} ? 'Match' : 'No match'">Match</span>
+        </td>
+        <td th:text="${position.totalScore + '%'}">75%</td>
+        <td>
+          <form th:action="@{/assign_position_to_student}" method="post">
+            <input type="hidden" name="positionId" th:value="${position.position.id}" />
+            <input type="hidden" name="studentId" th:value="${studentId}" />
+            <button type="submit" class="btn btn-sm btn-primary">Assign to Student</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="back-button-wrapper">
+    <a href="/Manage_students" class="btn btn-secondary">Back to Student Selection</a>
+  </div>
+</div>
+</body>
+</html>

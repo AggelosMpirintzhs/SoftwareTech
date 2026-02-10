@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Traineeship Position</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-container {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container form-container">
+    <h2 class="mb-4">Announce a Traineeship Position</h2>
+    <form action="/Add_position" method="post">
+
+        <div class="form-group">
+            <label for="title">Position Title *</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="e.g., Backend Developer" required>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate">Start Date *</label>
+            <input type="date" class="form-control" id="startDate" name="start_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate">End Date *</label>
+            <input type="date" class="form-control" id="endDate" name="end_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Work Description *</label>
+            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Describe the work to be done..." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="skills">Required Skills *</label>
+            <input type="text" class="form-control" id="skills" name="skills" placeholder="E.g., Java, SQL, Teamwork" required>
+        </div>
+
+        <div class="form-group">
+            <label for="topics">Topics of Interest *</label>
+            <input type="text" class="form-control" id="topics" name="topics" placeholder="E.g., Web Development, Machine Learning" required>
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Save Position</button>
+            <a href="/Company_Positions" class="btn btn-secondary">Cancel</a>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+
+    startDateInput.addEventListener('change', function() {
+        endDateInput.min = this.value;
+        if (endDateInput.value && endDateInput.value < this.value) {
+            endDateInput.value = this.value;
+        }
+    });
+
+    endDateInput.addEventListener('change', function() {
+        startDateInput.max = this.value;
+        if (startDateInput.value && startDateInput.value > this.value) {
+            startDateInput.value = this.value;
+        }
+    });
+</script>
+
+</body>
+</html>

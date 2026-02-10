@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Positions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            margin-top: 30px;
+        }
+
+        .checkboxes {
+            display: flex;
+            gap: 10px;
+        }
+
+        .table {
+            border: 2px solid #444;
+        }
+
+        .table thead th {
+            border-bottom: 3px solid #222;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            border: 2px solid #444;
+        }
+
+        .table th.delete-col, .table td.delete-col {
+            width: 120px;
+            text-align: right;
+            padding-right: 15px;
+        }
+
+        .btn-evaluate {
+            background-color: #6f42c1;
+            color: white;
+        }
+
+        .status-open {
+            background-color: #d4edda;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .status-assigned {
+            background-color: #ffe5b4;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .bottom-bar {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container mt-5">
+
+    <div class="top-bar">
+        <a href="/Add_position" class="btn btn-primary">Add Position</a>
+        <div class="checkboxes">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="showAssigned" checked>
+                <label class="form-check-label" for="showAssigned">Show Assigned Positions</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="showOpen" checked>
+                <label class="form-check-label" for="showOpen">Show Open Positions</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Position Title</th>
+                <th>Description</th>
+                <th>Evaluate</th>
+                <th>Status</th>
+                <th class="delete-col">Delete Position</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pos : ${positions}" th:class="'row-' + (${pos.assigned} == true ? 'assigned' : 'open')">
+                <td th:text="${pos.title}">Position Title</td>
+                <td th:text="${pos.description}">Description</td>
+                <td>
+                    <a th:if="${pos.assigned} == true"
+                       th:href="@{'/evaluate/' + ${pos.id}}"
+                       class="btn btn-evaluate btn-sm">Evaluate</a>
+                    <button th:if="${pos.assigned} == false"
+                            type="button"
+                            class="btn btn-secondary btn-sm"
+                            style="cursor: not-allowed;"
+                            onclick="alert('You can only evaluate assigned positions!')">Evaluate</button>
+                </td>
+                <td>
+                    <div th:classappend="${pos.assigned} == true ? 'status-assigned' : 'status-open'">
+                        <span th:text="${pos.assigned} == true ? 'assigned' : 'open'"></span>
+                    </div>
+                </td>
+                <td class="delete-col">
+                    <a th:href="@{'/delete/' + ${pos.id}}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bottom-bar">
+        <a href="/company_dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById('showAssigned').addEventListener('change', filterRows);
+    document.getElementById('showOpen').addEventListener('change', filterRows);
+
+    function filterRows() {
+        const showAssigned = document.getElementById('showAssigned').checked;
+        const showOpen = document.getElementById('showOpen').checked;
+
+        document.querySelectorAll("tr.row-open").forEach(row => {
+            row.style.display = showOpen ? "" : "none";
+        });
+
+        document.querySelectorAll("tr.row-assigned").forEach(row => {
+            row.style.display = showAssigned ? "" : "none";
+        });
+    }
+
+    filterRows();
+</script>
+</body>
+
+</html>
